@@ -1,0 +1,30 @@
+#summary Basic information about Opus Composer output.
+
+= Introduction =
+
+_This information applies to the initial alpha release of Opus Composer which has no official version designation yet._
+
+Opus Composer edits _Gizmo_ documents. The whys and wherefores of which are discussed herein.
+
+= Details =
+
+Gizmo declarations look like this:
+
+{{{
+opus.Gizmo({
+  name: "MyGizmo",
+  isa: opus.Container
+.. more properties
+}
+}}}
+
+You can load multiple Gizmo declarations that use the same name, the properties are merged together. 
+
+By default, Composer uses this mechanism to separate presentation from logic. So a gizmo is usually divided into two files:
+
+{{{
+MyGizmo-chrome.js // presentation properties, aka chrome
+MyGizmo.js // logic
+}}}
+
+Files suffixed with _-chrome_ are interpreted by Composer as presentation files and are opened in the visual designer. The format is (mostly) simple JSON, so these files can be edited with any text tool. But, when saved from Composer all non-visual properties, code, and comments are stripped, so one should consider these files _machine readable_ and edit them primarily using Composer.
