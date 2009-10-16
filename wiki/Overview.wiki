@@ -16,7 +16,7 @@ _TODOC_
 
 = Details =
 
-Opus-js is designed to describe presentation with files that are (mostly) composed of javascript object notation ([http://json.org/ JSON]). We support traditional markup around and inside Opus views, but mostly the notion is to emphasize Controls (aka widgets).
+Opus-js is designed to describe presentation with files that are (mostly) composed of javascript object notation ([http://json.org/ JSON]). We support traditional markup around and inside Opus views, but mostly the notion is to emphasize Components (aka widgets).
 
 For the most part, you will be working with the Opus API which is hiding much of the details of DOM.
 
