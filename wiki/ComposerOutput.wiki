@@ -15,7 +15,7 @@ opus.Gizmo({
   name: "MyGizmo",
   type: "Container"
   //.. more properties
-}
+});
 }}}
 
 You can load multiple Gizmo declarations that use the same name, the properties are merged together. Composer uses this mechanism to separate presentation from logic. So a gizmo is usually divided into two files:
