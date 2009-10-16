@@ -14,13 +14,11 @@ Gizmo declarations look like this:
 opus.Gizmo({
   name: "MyGizmo",
   type: "Container"
-.. more properties
+  //.. more properties
 }
 }}}
 
-You can load multiple Gizmo declarations that use the same name, the properties are merged together. 
-
-By default, Composer uses this mechanism to separate presentation from logic. So a gizmo is usually divided into two files:
+You can load multiple Gizmo declarations that use the same name, the properties are merged together. Composer uses this mechanism to separate presentation from logic. So a gizmo is usually divided into two files:
 
 {{{
 MyGizmo-chrome.js // presentation properties, aka chrome
