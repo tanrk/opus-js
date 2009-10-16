@@ -8,10 +8,14 @@ Opus-js does some things ... differently. Below we will try to outline our metho
 
 Opus-js is designed for producing web applications, that is to say, web pages that require significant interactivity with a user, much like a traditional desktop application. 
 
-What is Composer?
-_TODOC_
+Opus Composer is intended to leverage opus-js, so that developers can concentrate on building interfaces and solving application problems, instead of technology problems.
+
+Ultimately, the goal is to have an ecosystem of Components such that for any particular problem an application developer might have, there are likely to be several choices for turnkey solutions, or at least, a basic solution to build upon.
+
+So the problems we set out to solve from the start are the layout problem (how to aggregate objects visually) and the rendering problem (how to render complex objects to DOM quickly).
 
 Where is the HTML? Where is the CSS? Where is the generated code?
+
 _TODOC_
 
 = Details =
