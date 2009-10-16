@@ -24,12 +24,12 @@ The Composer application provides visual editing of these JSON files. Add object
 
 Here is a snippet of code from Composer itself:
 
-{{
+{{{
 	saveAsAction: function() {
 		this.$.saveAsEditor.setValue(this.document.filename);
 		this.$.saveAsDialog.openAtCenter();
 	}
-}}
+}}}
 
 The _this_ object here could loosely be called the _controller_. The controller maintains references to all the Components that it owns in a hash called $ (bling). To effect changes to the interface, we call methods directly on Components.
 
