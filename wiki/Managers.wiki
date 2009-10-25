@@ -11,15 +11,27 @@ This arrangement results in two tree structures that describe a view. The _logic
 For example, a Window's trees might look like this:
 
 _logical tree:_
- * Window
-  * Button1
-  * Button2
+ * window1
+  * button1
+  * button2
 
 _render tree:_
- * Window
-  * Header
-  * Pillars
-  * Footer
-  * Client
-   * Button1
-   * Button2
+ * window1
+  * header
+  * leftPillar
+  * rightPillar
+  * footer
+  * client
+   * button1
+   * button2
+
+
+We say that _window1_ manages _button1_ and _button2_, but is parent to _header_, _leftPillar_, _rightPillar_, _footer_, and _client_.
+
+_client_ manages no controls, but is parent to _button1_ and _button2_.
+
+_header_, _leftPillar_, _rightPillar_, and _footer_ are Chrome objects that belong to the Window. Any particular class of Window may have it's own chrome. Chrome objects do not appear in the logical tree.
+
+For containers, only logical trees are streamed. Render trees are a runtime concept
+
+
