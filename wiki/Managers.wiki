@@ -26,12 +26,10 @@ _render tree:_
    * button2
 
 
-We say that _window1_ manages _button1_ and _button2_, but is parent to _header_, _leftPillar_, _rightPillar_, _footer_, and _client_.
+We say that _window1_ *manages* _button1_ and _button2_, but is *parent* to _header_, _leftPillar_, _rightPillar_, _footer_, and _client_.
 
 _client_ manages no controls, but is parent to _button1_ and _button2_.
 
 _header_, _leftPillar_, _rightPillar_, and _footer_ are Chrome objects that belong to the Window. Any particular class of Window may have it's own chrome. Chrome objects do not appear in the logical tree.
 
 For containers, only logical trees are streamed. Render trees are a runtime concept
-
-
