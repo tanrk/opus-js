@@ -1,0 +1,25 @@
+#summary Some discussion of Manager vs Parent
+
+= Introduction =
+
+Each Control has both a Manager and a Parent. Each Container may have a set of controls that it manages, and a set of children (for which is is the parent). This distinction is necessary because sometimes a manager will require additional controls (_chrome_) to exist between itself and it's children.
+
+= Details =
+
+This arrangement results in two tree structures that describe a view. The _logical tree_ describes the management structure, and the _render tree_ describes the parent/child structure. Generally, the rendering context for children is more complex than the manager context.
+
+For example, a Window's trees might look like this:
+
+_logical tree:_
+ * Window
+  * Button1
+  * Button2
+
+_render tree:_
+ * Window
+  * Header
+  * Pillars
+  * Footer
+  * Client
+   * Button1
+   * Button2
