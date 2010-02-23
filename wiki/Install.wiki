@@ -1,4 +1,4 @@
-#summary Opus Installation instructions
+#summary Opus installation instructions
 
 == Setup == 
 
