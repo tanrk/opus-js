@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+	<p>
+		Component strategy</p>
+	<ul>
+		<li>Component streams it&#39;s owned components as a list. This is not compatible with 
+			Container streams, which are &#39;manager trees&#39;. Believe this can be fixed by 
+			allowing Components to say if they should be streamed or not by their owner.</li>
+	</ul>
+	<p>
+		Control strategy</p>
+	<ul>
+		<li>A control CAN have an <em>owner</em> (Component) which manages the Control&#39;s name and receives 
+			the Control&#39;s delegated events (a tab can be owned by an application which 
+			listens for it&#39;s activation).</li>
+		<li>A control CAN have a <em>manager</em> (Control) which is a controller for the object in 
+			logical view-space (tab is managed by tabbar).</li>
+		<li>A control CAN have a <em>parent</em> (Control) which is in charge of rendering the 
+			Control (tab is parented by a scrolling field).</li>
+	</ul>
+	<p>
+		Container strategy</p>
+	<ul>
+		<li>Containers have <em>chrome</em>, which are Controls that it creates 
+			intrinsically, that do not need to be streamed.</li>
+		<li>Containers have <em>controls</em>, which is a list of Controls which the 
+			container is responsible for streaming. These are the complement to <em>chrome</em>.</li>
+		<li>Containers have <em>children</em>, which are Controls for which the container is the 
+			<em>parent</em> 
+			(and for which the Container is responsible for rendering).</li>
+	</ul>
+	<p>
+		ChromeDocument strategy</p>
+	<ul>
+		<li>(when active) document has a reference to a Gizmo (this.gizmo)</li>
+		<li>In other contexts, the objects listed in the chrome document config are going to 
+			be chrome (static). At design-time, they are more like controls (dynamic). This 
+			difference causes some problems.</li>
+		<li>Gizmo document config is considered <em>chrome</em>, so all subcomponent are 
+			owned by the Gizmo</li>
+		<li>NOTE:&nbsp; this.gizmo is monkey patched so that <em>getControls</em> returns 
+			enumerated <em>this.$</em> ... I don&#39;t remember why, must document this 
+			(ComponentTree?)</li>
+		<li>this.gizmo is generally owned by <em>ide</em>, but it&#39;s unclear if this is 
+			important</li>
+		<li>this.gizmo is created temporarily by <em>initializeSerial</em> and <em>populateComponentTree</em> in which cases it&#39;s owned by the document. TODO: 
+			refactor so it&#39;s just a local reference to a gizmo and not <em>this.gizmo</em></li>
+	</ul>
+	<p>
+		&nbsp;</p>
+
+</body>
+</html>

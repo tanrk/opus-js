@@ -1,0 +1,14 @@
+dojo kernal: ~100k
+opus core: ~50k
+opus controls: ~50k
+==
+~200k
+
+Aristo, Aerie, H20, Be, Design, Composer, registrations: ~90k
+==
+~300k
+
+Bespin: ~500k (!)
+==
+~800k
+
