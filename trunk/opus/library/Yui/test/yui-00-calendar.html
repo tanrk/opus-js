@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Yui Test</title>
+	<!-- -->
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		go = function() {
+			view = new opus.View({
+				width: "100%",
+				height: "100%",
+				styles: {border: 1, padding: 8, borderColor: "green"},
+				layoutKind: "vbox",
+				controls: [
+					{type: "opus.yui.Calendar", w:"100%", h: "100%"}
+				]
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

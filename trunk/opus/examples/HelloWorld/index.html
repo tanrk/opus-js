@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Hello World</title>
+	<style type="text/css">
+		/* optional styling for body */
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+		
+		/* opus node should be explicitly sized */
+		.opus {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	
+	<!-- Opus bootloader ho... loads app.js and depends.js -->
+	<script src="../../bootloader.js" type="text/javascript"></script>
+	
+	<!-- We'll put our HelloWorld Gizmo right here inline -->
+	<script type="text/javascript">
+		opus.Gizmo({
+			name: "HelloWorld",
+			type: "Container",
+			h: "100%",
+			w: "100%",
+			styles: {padding: 4},
+			layoutKind: "vbox",
+			chrome: [
+				// just a couple of controls, put whatever you want here!
+				{content: "Hello World.", w: "100%", h: 24},
+				{type: "Button", caption: "Button 1", l:0, w:100, onclick: "buttonClick"},
+				{type: "opus.Aerie.Button", caption: "Button 2", l:0, w:100, onclick: "buttonClick"}
+			],
+			// woo, an event
+			buttonClick: function(inSender) {
+				alert(inSender.caption);
+			}
+		});
+	</script>
+</head>
+<body>
+	<!-- this div can be anywhere in the page, but should have class opus and kind matching the Gizmo to put here -->
+	<div class="opus" kind="HelloWorld"></div>
+</body>
+</html>

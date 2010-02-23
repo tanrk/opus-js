@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Destroy Test (Components)</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript">
+	document.write("Destroy:<hr/>");
+	console.log("=== Destroy");
+	//
+	// Make some components
+	c = new opus.Component({name: "first", components: [
+		{},
+		{name: "especial"},
+		{}
+	]});
+	// dump our structure
+	file = c.write();
+	// output seralized structure
+	document.write("Before:<pre>" + c.serialize() + "</pre><hr/>");
+	console.log("opus.$ =>");
+	console.dir(opus.$);
+	// destroy the structure
+	c.destroy();
+	// instance 'c' won't go away until we release all references
+	document.write("After destroy(): <pre>" + c.serialize() + "</pre><hr/>");
+	console.log("opus.$ =>");
+	console.dir(opus.$);
+	//
+	document.write("<br/><br/>Destroy Components:<hr/>");
+	console.log("=== Destroy Components");
+	//
+	// Make some more components
+	c = new opus.Component({name: "second", components: [
+		{},
+		{name: "especial"},
+		{}
+	]});
+	// dump our structure
+	file = c.write();
+	// output seralized structure
+	document.write("Before:<pre>" + c.serialize() + "</pre><hr/>");
+	console.log("opus.$ =>");
+	console.dir(opus.$);
+	// destroy the structure owned by c
+	c.destroyComponents();
+	// instance 'c' won't go away until we release all references
+	document.write("After destroyComponents(): <pre>" + c.serialize() + "</pre><hr/>");
+	console.log("opus.$ =>");
+	console.dir(opus.$);
+</script>
+</body>
+</html>

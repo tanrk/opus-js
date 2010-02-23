@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: DomNode Test</title>
+	<!-- -->
+	<script src="../bootloader.js" type="text/javascript"></script>
+</head>
+<body onload="go()">
+<script type="text/javascript">
+	go = function() {
+		d = new opus.DomNodeBuilder();
+		d.domStyles = {position: "relative", border: "3px solid blue", width: "100px", height: "100px"};
+		d.domAttributes = {};
+		d.setParentNode(document.body);
+		d.render();
+		//
+		var h = d.generateHtml() + d.generateHtml() + d.generateHtml();
+		document.body.innerHTML += "<br/><br/>" + h;
+	}
+</script>
+</body>
+</html>

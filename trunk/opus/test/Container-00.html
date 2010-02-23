@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Container Test</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		go = function() {
+			c = new opus.Container({
+				parentNode: document.body,
+				styles: {
+					//position: "absolute",
+					border: 4,
+					padding: 4,
+					borderColor: "magenta"
+				},
+				controls: [{
+					w: "100%",
+					h: "15%",
+					styles: {
+						overflow: "auto",
+						border: 4,
+						padding: 4,
+						borderColor: "lightblue"
+					},
+					content: "Hello World"
+				},{
+					t: "15%",
+					w: "100%",
+					h: "85%",
+					styles: {
+						overflow: "auto",
+						border: 4,
+						padding: 4,
+						borderColor: "green"
+					},
+					content: "Hello World"
+				}]
+			});
+			// Normally bounds are managed by a Layout object, so there isn't a way
+			// to specify bounds in the control constructor.
+			c.setBounds({w: 550, h: 300});
+			// Serialize c's properties for some content
+			c.c$[1].setContent("<pre>" + c.serialize() + "</pre>");
+			// Render it last
+			c.render();
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

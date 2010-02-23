@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>02b: Destroy Test (destroyControls)</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		makestuff = function() {
+			// NOTE: 'controls' will be owned by their manager in the case where neither
+			// the controls or the manager have an explicit owner, causing the controls
+			// to be considered 'chrome' which are not affected by destroyControls.
+			// Therefore, we make sure that Container has an explicit owner.
+			// It is annoying that 'controls' sometimes are not, but the belief is that
+			// this is a pathological case.
+			o = new opus.Component();
+			c = new opus.Container({
+				owner: o,
+				parentNode: document.body,
+				styles: {
+					//position: "absolute",
+					border: 4,
+					padding: 4,
+					borderColor: "magenta"
+				},
+				controls: [{
+					w: "100%",
+					h: "15%",
+					styles: {
+						overflow: "auto",
+						border: 4,
+						padding: 4,
+						borderColor: "lightblue"
+					},
+					content: "Hello World"
+				},{
+					name: "output",
+					t: "15%",
+					w: "100%",
+					h: "85%",
+					styles: {
+						overflow: "auto",
+						border: 4,
+						padding: 4,
+						borderColor: "green"
+					},
+					content: "Hello World"
+				}]
+			});
+			// Normally bounds are managed by a Layout object, so there isn't a way
+			// to specify bounds in the control constructor.
+			c.setBounds({w: 550, h: 300});
+			// Serialize c's properties for some content
+			o.$.output.setContent("<pre>" + c.serialize() + "</pre>");
+			// Render it last
+			c.render();
+		}
+		go = function() {
+			cons = kit.byId("cons");
+			cons.innerHTML += "Create a single Container with two controls, then (click to) destroy it's controls.<hr/>";
+			makestuff();
+			// dump our structure
+			file = c.write();
+			// output seralized structure
+			cons.innerHTML += "Before destroyControls():<pre>" + c.serialize(o) + "</pre><hr/>";
+			console.group("opus.$ =>");
+			console.dir(opus.$);
+			console.groupEnd();
+		}
+		kill = function() {
+			// destroy the structure
+			c.destroyControls();
+			cons.innerHTML += "After destroyControls(): <pre>" + c.serialize(o) + "</pre><hr/>";
+			console.group("opus.$ =>");
+			console.dir(opus.$);
+			console.groupEnd();
+		}
+	</script>
+</head>
+<body onload="go()" onclick="kill()">
+<div id="cons"></div>
+</body>
+</html>

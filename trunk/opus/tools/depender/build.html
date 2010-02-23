@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Dependency Builder</title>
+	<style type="text/css">
+		body {
+			font-family: Arial;
+			font-size: 9px;
+		}
+	</style>
+	<!-- load dojo for xhrGet -->
+	<script src="../../dojo-build.js" type="text/javascript"></script>
+	<!-- specialized version of the loader to do dependency tracking -->
+	<script src="loader.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		// Note: this function must execute at load time in order
+		// to take advantage of document.write script tag processing
+		(function(){
+			target = opus.args.target;
+			if (!target) {
+				alert("target is required.");
+				return;
+			}
+			output = opus.args.output;
+			if (!output) {
+				alert("output is required.");
+				return;
+			}
+			opus.paths.opus = opus.args.opus;
+			//
+			// non-package target must also have a base path
+			//var target = "/opus/Composer/config/debug.js";
+			//var base = "/opus/Composer/";
+			//var output = "/www/opus/Composer/";
+			//
+			// package target must live in it's base path
+			//var target = "/opus/opus/opus";
+			//var target = "/opus/opus/library/opus/Aristo/opus-Aristo";
+			//var target = "/opus/opus/library/opus/Bespin/opus-Bespin";
+			//
+			// js config files are processed differently than 'package' files
+			pack = {};
+			if (target.slice(-2) == "js") {
+				isPackage = false;
+				// non-package target must also have a base path
+				opus.base = opus.args.base;
+				if (!opus.base) {
+					alert("non-package target must also have a base path.");
+					return;
+				}
+				document.write('<script src="' + target + '" type="text/javascript"></sc' + 'ript>');
+			} else {
+				isPackage = true;
+				pack = opus.parsePackagePath(target);
+				opus._depend(target);
+			}
+		})();
+		//
+		// generate a list of the dependencies in proper order
+		list = function() {
+			srcs = [];
+			csss = [];
+			var head = document.getElementsByTagName("head")[0];
+			var c$ = head.childNodes;
+			for (var i=0, src; n=c$[i]; i++) {
+				if (n.tagName == "META") {
+					src = n.getAttribute("content");
+					if (src) {
+						srcs.push(src);
+					}
+					/*src = n.getAttribute("css");
+					if (src) {
+						csss.push(src);
+					}*/
+				}
+			}
+			//delete opus.buildPaths[pack.name];
+		};
+		//
+		build = function() {
+			var n, p;
+			// Build internal path list
+			var pc = [];
+			// for application builds, put all the absolute paths at the top of the path aliases
+			/*if (!isPackage) {
+				for (n in opus.buildPaths) {
+					p = opus.buildPaths[n];
+					if ((p[0] != "$") && (n != 'opus')) {
+						pc.push('"' + n + '": "' + p + '"');
+					}
+				}
+			}*/
+			// append all the alias-relative paths to the path aliases
+			for (n in opus.buildPaths) {
+				p = opus.buildPaths[n];
+				if (p[0] == "$") {
+					pc.push('"' + n + '": "' + p + '"');
+				}
+			}
+			//
+			// Assemble path list for non-aliased paths
+			var ep = [];
+			//if (isPackage) {
+				for (n in opus.buildPaths) {
+					p = opus.buildPaths[n];
+					if ((p[0] != "$") && (n != 'opus')) {
+						ep.push('"' + n + '": "' + p + '"');
+					}
+				}
+			//}
+			// Assemble nobuild dependency list
+			//console.log(opus.nobuild);
+			var nb = [];
+			for (var i=0, n; n=opus.nobuild[i]; i++) {
+				nb.push('"' + n + '"');
+			}
+			//
+			// Do we need an external dependency file?
+			if ((isPackage && ep.length) || nb.length) {
+				document.body.innerHTML += "Outputting two-level build.<br/>";
+				// If we have external dependencies, we need two-level build
+				// hacky
+				var file = output.split("/").pop();
+				nb.push('"' + file + '-build.js"');
+				//
+				// put all paths in external file
+				ep = ep.concat(pc);
+				pc = [];
+				//
+				var data = "opus.depends({\n\t";
+				var sections = [];
+				if (ep.length) {
+					sections.push("paths: {\n\t\t" + ep.join(',\n\t\t') + '\n\t}');
+				};
+				if (nb.length) {
+					sections.push('nobuild: [\n\t\t' + nb.join(',\n\t\t') + '\n\t]');
+				};
+				data += sections.join(',\n\t') + '\n});';
+				//
+				document.body.innerHTML += "Primary build file contains: <pre>" + data + "</pre>";
+				//
+				// primary build file is now a dependency loader
+				dojo.xhrPost({
+					url: "php/write.php",
+					postData: 
+						"data=" + data +
+						"&path=" + output + ".js",
+					load: function(r) {
+					}
+				});
+				// secondary build file is now the static build
+				output += '-build';
+			}
+			//
+			if (pc.length) {
+				pc = "opus.depends({\n" 
+					+ "\tpaths: {\n\t\t"
+						+ pc.join(',\n\t\t')
+					+ "\n\t}\n"
+					+ "});";
+				document.body.innerHTML += "Internal paths: <pre>" + pc + "</pre>";
+			} else {
+				pc = "";
+			}
+			//
+			document.body.innerHTML += "Processing " + srcs.length + " file(s)<br/>";
+			document.body.innerHTML += "JSMin is goddamn slow ... just wait for it ...<hr />";
+			//
+			dojo.xhrPost({
+				url: "php/build.php",
+				postData: 
+					"list=" + srcs.join(",") +
+					"&path=" + output + ".js" + 
+					"&prefix=" + pc,
+				load: function(r) {
+					document.body.innerHTML += "<pre>" + r + "</pre>";
+				}
+			});
+		};
+		go = function() {
+			document.body.innerHTML += _log.join("<br/>") + "<hr/>";
+			list();
+			build();
+		};
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

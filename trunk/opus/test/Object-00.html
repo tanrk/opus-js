@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Object Test</title>
+	<!-- -->
+	<script src="../bootloader.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript">
+	// make an Object
+	o = new opus.Object();
+	// create a new property on this instance
+	o.publishProperty("rando", {});
+	// make a changed handler
+	o.getRando = function() {
+		return Math.floor(Math.random() * 1000);
+	}
+	// set up a changed handler
+	o.randoChanged = function() {
+		document.write('attempt to set "rando"<br/>');
+	}
+	// get the property
+	document.write("o.getRando() = ", o.getRando(), "<br/>");
+	// set the property
+	o.setRando(6);
+	document.write('<br/>');
+	//
+	// create more properties on this instance
+	o.publishProperty("foo", { value: "FOO", onchange: "changeWatcher"});
+	o.publishProperty("bar", { value: "BAR", onchange: "changeWatcher"});
+	o.publishProperty("zot", { value: "ZOT"});
+	//
+	// 1. onchange is called first
+	// make changeWatcher
+	o.changeWatcher = function(inName, inValue) {
+		document.write('changeWatcher: "' + inName + '" (either "foo" or "bar") changed ("' + inValue + '")<br/>');
+	}
+	// 2. [prop]Changed is called second
+	// set up a changed handler
+	o.fooChanged = function() {
+		this.foo = String(this.foo).toUpperCase();
+		document.write('fooChanged: uppercasing, ("' + this.foo + '")<br/>');
+	}
+	// 3. propertyChanged is called last
+	// override propertyChanged
+	o.propertyChanged = function(inName, inValue) {
+		document.write('propertyChanged: "' + inName + '" changed ("' + inValue + '")<br/>');
+	}
+	//
+	// set foo
+	o.setFoo("just a little foo");
+	document.write('<br/>');
+	//
+	// get bar
+	document.write('o.getBar() = "', o.getBar(), '"<br/>');
+	// set bar
+	o.setBar("raising the bar");
+	document.write('<br/>');
+	//
+	// set zot
+	o.setZot("zzzzzot!");
+	document.write('<br/>');
+</script>
+</body>
+</html>
