@@ -1,7 +1,5 @@
 #summary Opus Installation instructions
 
-= Opus Installation =
-
 == Setup == 
 
 Checkout the Opus source from [http://code.google.com/p/opus-js/source/checkout google code].
