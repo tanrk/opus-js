@@ -1,7 +1,7 @@
 #summary Opus installation instructions
 
 
-== Setup == 
+= Setup = 
 
 Checkout the Opus source from [http://code.google.com/p/opus-js/source/checkout google code].
 
@@ -10,7 +10,7 @@ Opus requires the [http://www.dojotoolkit.org Dojo Toolkit] and by default loads
 Opus Composer requires [http://www.php.net PHP].
 
 
-== Stuff to Try ==
+= Stuff to Try =
 
 Run Composer. To save and load files, you'll need to login by clicking the Login button in the toolbar. By default, there's a single user named nobody. Documents are saved to _opus/Composer/documents/files_. You can preview what you make by clicking the Preview button in the toolbar.
 
