@@ -1,3 +1,5 @@
+#summary Opus Installation instructions
+
 = Opus Installation =
 
 == Setup == 
