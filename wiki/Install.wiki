@@ -1,5 +1,6 @@
 #summary Opus installation instructions
 
+
 == Setup == 
 
 Checkout the Opus source from [http://code.google.com/p/opus-js/source/checkout google code].
@@ -7,6 +8,7 @@ Checkout the Opus source from [http://code.google.com/p/opus-js/source/checkout 
 Opus requires the [http://www.dojotoolkit.org Dojo Toolkit] and by default loads it from Google's cdn. To customize this, edit the _opus/dojo-depends.js_ file.
 
 Opus Composer requires [http://www.php.net PHP].
+
 
 == Stuff to Try ==
 
