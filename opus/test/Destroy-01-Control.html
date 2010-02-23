@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>01: Destroy Test (Control)</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		go = function() {
+			cons = kit.byId("cons");
+			c = new opus.Control({
+				parentNode: document.body,
+				content: "Hello World - click to destroy",
+				styles: {
+					position: "absolute",
+					border: 4,
+					padding: 4,
+					borderColor: "magenta",
+					overflow: "auto"
+				}
+			});
+			// Normally bounds are managed by a Layout object, so there isn't a way
+			// to specify bounds in the control constructor.
+			c.setBounds({l: 400, w: 450, h: 300});
+			// Render it last
+			c.render();
+			// dump our structure
+			file = c.write();
+			// output seralized structure
+			cons.innerHTML += "Before destroy():<pre>" + c.serialize() + "</pre><hr/>";
+			console.log("opus.$ =>");
+			console.dir(opus.$);
+		}
+		kill = function() {
+			// destroy the structure
+			c.destroy();
+			// instance 'c' won't go away until we release all references
+			cons.innerHTML += "After destroy(): <pre>" + c.serialize() + "</pre><hr/>";
+			console.log("opus.$ =>");
+			console.dir(opus.$);
+		}
+	</script>
+</head>
+<body onload="go()" onclick="kill()">
+<div id="cons"></div>
+</body>
+</html>

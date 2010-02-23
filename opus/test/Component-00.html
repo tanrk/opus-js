@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Component Test</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript">
+	// Make some components
+	c = new opus.Component({name: "first", components: [
+		{},
+		{name: "especial"},
+		{}
+	]});
+	// reference a component
+	e = c.$.especial;
+	// create a new property on *instance* c1
+	e.publishProperty("myProperty", {});
+	// give the new property a value (won't serialize unless the value differs from default)
+	e.setMyProperty(6);
+	// dump our structure
+	file = c.write();
+	// output seralized structure
+	document.write("Before:<pre>" + c.serialize() + "</pre><hr/>");
+	// destroy the structure
+	c.destroy();
+	// instance 'c' won't go away until we release all references
+	document.write("During:<pre>" + c.serialize() + "</pre><hr/>");
+	// release c
+	c = null;
+	// recreate structure
+	c = opus.createComponent(file);
+	// output seralization
+	document.write("After:<pre>" + c.serialize() + "</pre><hr/>");
+</script>
+</body>
+</html>

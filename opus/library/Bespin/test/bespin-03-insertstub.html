@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>02: Bespin Build</title>
+	<!-- -->
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		go = function() {
+			view = new opus.View({
+				width: "100%",
+				height: "100%",
+				styles: {border: 1, padding: 8, borderColor: "green"},
+				layoutKind: "vbox",
+				controls: [
+					{name: "toolbar", w: "100%", h: 40, layoutKind: "hbox", styles: {bgColor: "white", padding: 2}, controls: [
+						{content: "Line:", w: 36, h: "100%", styles: {marginRight: 8, oneLine: true}, verticalAlign: "center"},
+						{name: "lineEditor", type: "Editor", w: 60, value: 5, styles: {marginRight: 8}, verticalAlign: "center"},
+						{type: "Aristo.Button", w: 80, content: "gotoLine", onclick: "gotoLine", verticalAlign: "center"},
+						{type: "Aristo.Button", w: 80, content: "insertChunk", onclick: "insertChunk", verticalAlign: "center"}
+					]},
+					{name: "bespin", type: "opus.bespin.Editor", w:"100%", h: "100%", script: "foo: {\n\tfunction() {},\n\t_stub: 1\n};",styles: {bgColor: "black", border: 2}}
+					
+				],
+				keypressHandler: function(e) {
+					if (e.target == this.$.lineEditor.node && e.charOrCode == kit.keys.ENTER) {
+						this.gotoLine();
+					}
+				},
+				gotoLine: function() {
+					var v = this.$.lineEditor.getValue();
+					this.$.bespin.gotoLineNumber(v);
+				},
+				insertChunk: function() {
+					var script = "onclick: function(inSender, inEvent) {\n\t\t\n\t},\n\t";
+					this.$.bespin.find("_stub: 1");
+					this.$.bespin.moveToLineStart();
+					this.$.bespin.insertAtCursor(script);
+					this.$.bespin.gotoLineNumber(this.$.bespin.getCursorRow() - 1);
+					this.$.bespin.moveToLineEnd();
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

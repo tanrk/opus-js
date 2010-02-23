@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>00: Dynamic Iframe test</title>
+	<!-- -->
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: auto;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<!-- -->
+	<!-- -->
+	<script type="text/javascript">
+		make = function(inNode, inSrc) {
+			var frame = document.createElement("iframe");
+			frame.src = inSrc || "javascript:false;";
+			// display: block occasionally suppresses some Firefox bugs, so we
+			// always add it, redundant as it sounds.
+			//frame.style.display = "block";
+			inNode.appendChild(frame);
+			//
+			if (!inSrc) {
+				var win = frame.contentWindow;
+				var html = ["<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head>"];
+				
+				// loading a script file here is important
+				html.push('<script type="text/javascript" src="yog.js"></s' + 'cript>');
+				html.push('<script type="text/javascript">loaded = function() {console.log("loaded!", document.body); document.body.innerHTML = "My body.onload succeeded!";}</s' + 'cript>');
+				html.push('</head><body onload="loaded()"></body>My body.onload failed =(</html>');
+
+				var doc = win.document;
+				doc.open();
+				doc.write(html.join(""));
+				doc.close();
+			}
+		}
+		
+		bad = function() {
+			var p = document.getElementById("choopa");
+			var b = document.createElement("div");
+			// attach before setting position
+			p.appendChild(b);
+			// setting position relative here makes the iframe's body.onload fail to fire
+			b.style.position = "relative";
+			make(b);
+			
+			// NOTE: It appears that setting position relative or absolute and immediately 
+			// creating an iframe, causes the window.load event in the iframe to fire before
+			// the iframe's body exists.
+		}
+		
+		bad2 = function() {
+			var p = document.getElementById("choopa");
+			// setting position relative here makes the iframe's body.onload fail to fire
+			p.style.position = "relative";
+			make(p);
+		}
+		
+		
+		good = function() {
+			var p = document.getElementById("choopa");
+			var b = document.createElement("div");
+			b.style.position = "relative";
+			// attach *after* setting position
+			p.appendChild(b);
+			//
+			make(b);
+		}
+		
+		good2 = function() {
+			var p = document.getElementById("choopa");
+			var b = document.createElement("div");
+			b.style.position = "relative";
+			// attach *after* setting position
+			p.appendChild(b);
+			//
+			make(b, "frame.html");
+		}
+		
+	</script>
+</head>
+<body>
+<p>
+	In Firefox, suppose you have a node and you give it position relative or absolute and then you append a dynamic iframe to it.
+</p><p>
+	The iframe content is created such that it loads an external script file and has a body.onload listener. Then...
+</p>
+<h3>The iframe's body.onload event fails to fire!</h3>
+<button onclick="bad()">Bad! (no console output: event didn't fire)</button><br />
+<button onclick="bad2()">Bad2! (no console output: event didn't fire)</button><br />
+<button onclick="good()">Good! (see console output)</button><br />
+<button onclick="good2()">Good2! (see console output)</button>
+
+
+<div id="choopa" style="height: 100%; width: 100%;"></div>
+</body>
+</html>

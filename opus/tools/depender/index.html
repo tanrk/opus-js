@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Dependency Builder</title>
+	<style type="text/css">
+		body {
+			font-family: Arial;
+			font-size: 9px;
+		}
+		#App {
+			width: 384px;
+		}
+		#Package {
+			width: 394px;
+		}
+		#File {
+			width: 364px;
+		}
+		#Server {
+			width: 384px;
+		}
+		#Base {
+			width: 384px;
+		}
+		#depender {
+			height: 367px;
+			width: 831px;
+		}
+	</style>
+	<!-- load dojo for xhrGet -->
+	<script src="../../dojo-build.js" type="text/javascript"></script>
+	<!-- specialized version of the loader to do dependency tracking -->
+	<script type="text/javascript">
+		init = function() {
+			serverRoot = dojo.byId("Server").value;
+			fileRoot = dojo.byId("File").value;
+		};
+		buildPackage = function() {
+			init();
+			//
+			package = dojo.byId("Package").value;
+			target = serverRoot + package;
+			output = fileRoot + package + '-build';
+			//
+			params = "target=" + target + "&output=" + output;
+			//console.log(params);
+			dojo.byId("depender").src = "build.html?" + params;
+		};
+		buildApplication = function() {
+			init();
+			//
+			folder = dojo.byId("App").value + "/";
+			opus = serverRoot + dojo.byId("Opus").value;
+			args = dojo.byId("Args").value;
+			//
+			base = serverRoot + folder;
+			target = base + "depends.js";
+			output = fileRoot + folder + "app";
+			//
+			params = "target=" + target + "&output=" + output + "&base=" + base + "&opus=" + opus + "&" + args;
+			console.log(params);
+			dojo.byId("depender").src = "build.html?" + params;
+		};
+	</script>
+</head>
+<body>
+	<p>
+	Server root: <input id="Server" type="text" value="/opus/"/><br />
+	Filesystem root: <input id="File" type="text" value="/www/opus/"/><br />
+	Opus path (relative to server root): <input id="Opus" type="text" value="opus/"/><br />
+	</p>
+	<br />
+	<p>
+	Package: <input id="Package" type="text" value="opus/opus"/>
+	<input type="button" value="Build Package" onclick="buildPackage()" />
+	</p>
+	<br />
+	<p>
+	Application: <input id="App" type="text" value="Composer"/>
+	<input type="button" value="Build Application" onclick="buildApplication()"/>
+	<br />
+	Arguments: <input id="Args" type="text" value=""/><br />
+	</p>
+	<iframe id="depender"></iframe>
+</body>
+</html>

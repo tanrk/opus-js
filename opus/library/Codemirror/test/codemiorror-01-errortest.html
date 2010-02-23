@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>01: CodeMirror Test</title>
+	<!-- -->
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: auto;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+		
+		.CodeMirror-line-numbers {
+        width: 2.2em;
+        color: #aaa;
+        background-color: #eee;
+        text-align: right;
+        padding-right: .3em;
+        font-size: 10pt;
+        font-family: monospace;
+        padding-top: .4em;
+      }
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		make = function(inNode) {
+				sourceFile = "codemirror-m.js";
+				editor = new CodeMirror(inNode, {
+					height: "100%",
+					width: "100%",
+					basefiles: [sourceFile],
+					content: "function () {}",
+					stylesheet: opus.paths.library + "opus/Codemirror/assets/css/jscolors.css",
+					path: opus.paths.library + "opus/Codemirror/",
+					tabMode: "shift",
+					lineNumbers: true,
+					disableSpellcheck: true
+				});
+			}
+		
+		bad = function() {
+			var p = dojo.byId("choopa");
+			var b = document.createElement("div");
+			// attach before setting position
+			p.appendChild(b);
+			b.style.position = "relative";
+			make(b);
+			
+			// NOTE: It appears that setting position relative or absolute and immediately 
+			// creating an iframe, causes the window.load event in the iframe to fire before
+			// the iframe's body exists.
+		}
+		good = function() {
+			var p = dojo.byId("choopa");
+			var b = document.createElement("div");
+			b.style.position = "relative";
+			// attach *after* setting position
+			p.appendChild(b);
+			//
+			make(b);
+		}
+		
+	</script>
+</head>
+<body xonload="go()">
+<button onclick="bad()">Bad!</button>
+<button onclick="good()">Good!</button>
+<div id="choopa" style="height: 100%; width: 100%;"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>02: Bespin Build</title>
+	<!-- -->
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		go = function() {
+			view = new opus.View({
+				width: "100%",
+				height: "100%",
+				styles: {border: 1, padding: 8, borderColor: "green"},
+				layoutKind: "vbox",
+				controls: [
+					{name: "toolbar", w: "100%", h: 40, layoutKind: "hbox", styles: {bgColor: "white", padding: 2}, controls: [
+						{content: "Line:", w: 36, h: "100%", styles: {marginRight: 8, oneLine: true}, verticalAlign: "center"},
+						{name: "lineEditor", type: "Editor", w: 60, value: 5, styles: {marginRight: 8}, verticalAlign: "center"},
+						{type: "Aristo.Button", w: 80, content: "gotoLine", onclick: "gotoLine", verticalAlign: "center"},
+						{type: "Aristo.Button", w: 80, content: "insertChunk", onclick: "insertChunk", verticalAlign: "center"}
+					]},
+					{name: "bespin", type: "opus.bespin.Editor", w:"100%", h: "100%", script: "{\n  function() {}\n}",styles: {bgColor: "black", border: 2}}
+					
+				],
+				keypressHandler: function(e) {
+					if (e.target == this.$.lineEditor.node && e.charOrCode == kit.keys.ENTER) {
+						this.gotoLine();
+					}
+				},
+				gotoLine: function() {
+					var v = this.$.lineEditor.getValue();
+					this.$.bespin.gotoLineNumber(v);
+				},
+				insertChunk: function() {
+					var script = "\n  onclick: function(inSender, inEvent) {\n    \n  }";
+					this.$.bespin.doAction("moveCursorLastTextRow");
+					var row = this.$.bespin.doAction("moveCursorPrevTextRow");
+					//
+					// determine if we need a comma where we're inserting (pretty brittle)
+					//var script = (this.$.bespin.doAction("getRowText").slice(-1) == "{" ? "" : ",") + script;
+					var rowText = this.$.bespin.fetchRowText();
+					script = (rowText.match(",$") ? "" : ",") + script;
+					// insert new script
+					this.$.bespin.doAction("moveToLineEnd");
+					this.$.bespin.doAction("insertChunk", {chunk: script, pos: 0, queued: 0});
+					this.$.bespin.gotoLineNumber(row + 3);
+					this.$.bespin.doAction("moveToLineEnd");
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

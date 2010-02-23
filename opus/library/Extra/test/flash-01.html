@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>01: Flash Test</title>
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		go = function() {
+			view = new opus.View({
+				minWidth: 376,
+				minHeight: 164,
+				styles: {border: 8, padding: 4, borderColor: "green"},
+				layoutKind: "vbox",
+				controls: [
+					{content: "This is a flash movie.", w: "100%", h: 24},
+					{name: "editor", type: "opus.Editor", value: "http://www.handdrawngames.com/DesktopTD/DesktopTD15k.swf", l:0, w:"100%"},
+					{type: "opus.Aristo.Button", content: "Load", l:0, w:100, onclick: "loadFlash"},
+					{name: "flash", type: "opus.Flash", w:"100%", h:"100%", movie: "http://www.youtube.com/v/u1zgFlCw8Aw&fs=1"}
+				],
+				loadFlash: function() {
+					this.$.flash.setMovie(this.$.editor.getValue());
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+	<!--<object style="width: 100%; height: 100%;" type="application/x-shockwave-flash" data="http://www.youtube.com/v/u1zgFlCw8Aw&fs=1">
+		<param name="movie" value="http://www.youtube.com/v/u1zgFlCw8Aw&fs=1"</param>
+		<param name="allowFullScreen" value="true"></param>
+	</object>-->
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Dijit Test 06</title>
+	<style type="text/css">
+		body, input {
+			font-family: "Prelude-Medium", "Prelude", sans-serif;
+			font-size: 9pt;
+		}
+		body, html {
+			overflow:hidden;
+			height:100%;
+			width:100%;
+			margin:0;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		go = function() {
+			new opus.View({layoutKind: "vbox", controls: [
+				{layoutKind: "hbox", h: 30, w: "100%", controls: [
+					{type: "Aristo.Button", caption: "Tundra", w: 120, onclick: "tundraTheme"},
+					{type: "Aristo.Button", caption: "Soria", w: 120, onclick: "soriaTheme"}
+				]},
+				{type: "Dijit.InlineEditBox", h: 30, w: 120, value: "30", styles: {margin: 10}, onchange: "editorChanged"},
+				{name: "progress", type: "Dijit.ProgressBar", progress: 30, h: 30, w: 200, styles: {margin: 10}},
+				{type: "Dijit.Grid", h: 300, w: "100%", styles: {border: 1, margin: 10}},
+				{type: "Dijit.Editor", h: 300, w: "100%", styles: {border: 1, margin: 10}},
+				{type: "Dijit.Tree", h: 150, w: 400, styles: {border: 1, margin: 10}},
+				{type: "Dijit.Calendar", h: 240, w: 240, styles: {border: 1, margin: 10}}
+			],
+			setTheme: function(inTheme) {
+				for (var i in this.$) {
+					opus.apply(this.$[i], "setWidgetTheme", [inTheme]);
+				}
+			},
+			tundraTheme: function() {
+				this.setTheme("tundra");
+			},
+			soriaTheme: function() {
+				this.setTheme("soria");
+			},
+			editorChanged: function(inSender) {
+				this.$.progress.setProgress(Number(inSender.getValue()));
+			}
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>

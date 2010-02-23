@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Test</title>
+</head>
+<body>
+green box has padding: 64px
+<div style="position:relative; background-color:lightgreen; padding:64px;width:200px;height:200px;">
+	<div style="position:absolute;left:0;top:0;border:1px solid blue;width:50px;height:50px;">abs(0,0)</div>
+	<div style="position:relative;border:1px solid red;width:50px;height:50px;">rel(0,0)</div>
+</div>
+<br />
+<div style="position:relative; background-color:lightgreen;width:200px;height:200px;">
+	<div style="position:relative;border:1px solid blue;left:0;top:0;width:50px;height:50px;">rel(0,0)</div>
+	<div style="position:relative;border:1px solid red;left:0;top:0;width:50px;height:50px;">rel(0,0)</div>
+</div>
+<br />
+<div style="position:relative; background-color:lightgreen;width:200px;height:200px;">
+	<div style="position:relative;border:1px solid blue;left:10px;top:0;right:0;height:50px;">rel(0,0)</div>
+	<div style="position:absolute;border:1px solid blue;left:10px;top:50px;right:0;height:50px;">abs(10,50)</div>
+</div>
+</body>
+</html>

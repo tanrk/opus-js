@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>01m Views: View Test</title>
+	<script src="../bootloader.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		go = function() {
+			chrome = [
+				{l:0, t:0, r:120, b:60, controls: [
+					{name: "json", w:"100%", h:"100%", styles: {bgColor:"#F1F1F1", overflow: "scroll", margin: 4, border: 4}},
+					{r:124, b:30, w:83, h:28, styles: {border: 2}, content: "<button>Okesque</button>"},
+					{r:30, b:30, w:87, h:28, styles: {border: 2}, content: "<button>Cancelish</button>"}
+				]},
+				{w:120, t:0, r:0, b:60, styles: {bgColor:"#F1F1F1", overflow: "auto", padding: 4, margin: 4, border: 4}, content: "Column"},
+				{l:0, h:60, r:0, b:0, styles: {bgColor:"#F1F1F1", overflow: "auto", padding: 4, margin: 4, border: 4}, content: "Footer"},
+				{w:8, h:8, styles: {bgColor:"red"}},
+				{r:0, w:8, h:8, styles: {bgColor:"red"}},
+				{b:0, w:8, h:8, styles: {bgColor:"red"}},
+				{r:0, b:0, w:8, h:8, styles: {bgColor:"red"}}
+			];
+			viewStyles = {border: 8, padding: 4, borderColor: "green"};
+			//
+			view0 = new opus.View({parentNode: "view-0", styles: viewStyles, controls: chrome});
+			// Serialize view's properties as content for control "json"
+			view0.$.json.setContent("<pre>" + view0.serialize() + "</pre>");
+			// Render view0
+			view0.render();
+			//
+			view1 = new opus.View({parentNode: "view-1", styles: viewStyles, controls: chrome});
+			// Serialize view's properties as content for control "json"
+			view1.$.json.setContent("<pre>" + view1.serialize() + "</pre>");
+			// Render view1
+			view1.render();
+		}
+		resize = function() {
+			view0.resize();
+			view1.resize();
+		}
+	</script>
+</head>
+<body onload="go()" onresize="resize()">
+view 0
+<div id="view-0" style="width:500px;height:300px;position:relative;border:1px solid red;"></div>
+<hr />
+view 1
+<div id="view-1" style="left:100px;width:500px;height:300px;position:relative;border:1px solid red;"></div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>02: Tree Test</title>
+	<style type="text/css">
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+			font-family: "Segoe UI", Arial, Verdana;
+			font-size: 9pt;
+			background-color: #F1F1F1;
+		}
+	</style>
+	<script src="../../../bootloader.js" type="text/javascript"></script>
+	<!-- -->
+	<script type="text/javascript">
+		go = function() {
+			view = new opus.View({
+				minWidth: 376,
+				minHeight: 164,
+				styles: {border: 8, padding: 4, borderColor: "green"},
+				layoutKind: "vbox",
+				controls: [
+					{name: "field", type: "opus.Field", caption: "Label", value: "Test", w: 200},
+					{type: "Button", caption: "Add", w: 100, clickHandler: function() {
+						var l = this.owner.$.field.getValue();
+						var r = this.owner.$.tree;
+						var s = r.selected;
+						s = s && opus.$[s.globalId] ? s : r;
+						s.createComponent({caption: l, controls: [{caption: "1"}, {type: "TreeCheckboxNode", caption: "2", checked: true}]});
+						//s.renderContent();
+					}},
+					{type: "Button", caption: "Remove Selected", w: 120, clickHandler: function() {
+							opus.apply(this.owner.$.tree.getSelected(), "destroy");
+					}},
+					{name: "tree", type: "Tree", h: "100%", w:"100%", styles: {border: 1}, onclick: "nodeClick", onselect: "nodeSelect", controls: [
+						{name: "root", caption: "UI Framework", width: "100%", height: "100%", controls: [
+							{caption: "one", open: false, controls: [
+								{caption: "foo"},
+								{caption: "foo"}
+							]},
+							{caption: "one", controls: [
+								{caption: "foo"},
+								{caption: "foo"}
+							]}
+						]}
+					]}
+				],
+				nodeSelect: function() {
+					var s = this.$.tree.selected;
+					console.log("select fired!", s.getCaption(), s);
+				},
+				nodeClick: function() {
+					console.log("nodeClick", arguments);
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="go()">
+</body>
+</html>
